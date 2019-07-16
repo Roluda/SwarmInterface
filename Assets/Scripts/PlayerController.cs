@@ -11,6 +11,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         particleManager.AbsoluteDrift += Input.GetAxis("Horizontal")*Time.deltaTime;
-        particleManager.RelativeDrift += Input.GetAxis("Vertical")*Time.deltaTime;
+        particleManager.RelativeDrift = Input.GetAxis("Vertical");
     }
 }

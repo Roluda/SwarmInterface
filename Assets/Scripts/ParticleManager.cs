@@ -32,12 +32,21 @@ public class ParticleManager : MonoBehaviour, IPlottable
     {
         get
         {
-            float sum = 0;
+            float result = 0;
             foreach(Particle p in particles)
             {
-                sum += p.X;
+                result += p.X;
             }
-            return sum / particles.Length;
+            result = result / particles.Length;
+            if (!float.IsNaN(result))
+            {
+                return result;
+            }
+            else
+            {
+                Debug.Log("Average was not a Number");
+                return 0;
+            }
         }
     }
 
@@ -132,7 +141,7 @@ public class ParticleManager : MonoBehaviour, IPlottable
 
     public void Start()
     {
-        Setup(initialParticles, initialMean, initialStandardDeviation);
+        Setup();
     }
 
     public void Update()
@@ -145,12 +154,13 @@ public class ParticleManager : MonoBehaviour, IPlottable
 
     #endregion
 
-    public void Setup(int particleCount, float mean, float standardDeviation)
+    public void Setup()
     {
-        particles = new Particle[particleCount];
-        for (int i = 0; i < particleCount; i++)
+        AbsoluteDrift = 0;
+        particles = new Particle[initialParticles];
+        for (int i = 0; i < initialParticles; i++)
         {
-            float normalDistributedRandomNumber = MarsagliaGenerator.Next() * standardDeviation + mean;
+            float normalDistributedRandomNumber = MarsagliaGenerator.Next() * initialStandardDeviation + initialMean;
             particles[i] = new Particle(normalDistributedRandomNumber);
         }
     }
