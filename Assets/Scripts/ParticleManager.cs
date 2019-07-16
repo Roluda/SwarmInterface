@@ -5,8 +5,6 @@ using UnityEngine;
 public class ParticleManager : MonoBehaviour, IPlottable
 {
     public Particle[] particles;
-    public NormalDistribution distribution = new NormalDistribution(0, 1);
-
 
     #region serializeFields
 
@@ -145,12 +143,6 @@ public class ParticleManager : MonoBehaviour, IPlottable
         }
     }
 
-    public void LateUpdate()
-    {
-        distribution.Mean = PositionAverage;
-        distribution.StandardDeviation = PositionStandardDeviation;
-    }
-
     #endregion
 
     public void Setup(int particleCount, float mean, float standardDeviation)
@@ -161,7 +153,6 @@ public class ParticleManager : MonoBehaviour, IPlottable
             float normalDistributedRandomNumber = MarsagliaGenerator.Next() * standardDeviation + mean;
             particles[i] = new Particle(normalDistributedRandomNumber);
         }
-        distribution = new NormalDistribution(PositionAverage, PositionStandardDeviation);
     }
 
     public void ApplyDrift(Particle particle)

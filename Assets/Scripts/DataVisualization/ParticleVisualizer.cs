@@ -14,19 +14,12 @@ public class ParticleVisualizer : Visualizer
         int particleCount = theParticleSystem.GetParticles(particles);
         for(int i = 0; i < particleCount; i++)
         {
-            float x = (particles[i].position.x / Width) * HorizontalScale;
-            float y = ObservedDistribution.GetValue(x) / VerticalScale * Height - Height / 2;
+            float x = Center+(particles[i].position.x / Width) * HorizontalScale;
+            float y = ObservedDistribution.Value(x) / VerticalScale * Height - Height / 2;
             if (particles[i].position.y > y)
             {
                 particles[i].remainingLifetime = 0;
             }
-            /*
-            float y = (particles[i].position.y + Height / 2)/Height;
-            if (y > ObservedDistribution.GetValue(x) / VerticalScale)
-            {
-                particles[i].remainingLifetime = 0;
-            }
-            */
         }
         theParticleSystem.SetParticles(particles, particleCount);
     }

@@ -8,54 +8,20 @@ public class Visualizer : MonoBehaviour
     [SerializeField]
     Camera displayCamera;
     [SerializeField]
-    float horizontalScale;
+    protected Distribution observedDistribution;
     [SerializeField]
-    float verticalScale;
+    CoordinateSpace coordinateSpace;
     [SerializeField]
-    float center;
-
-    protected NormalDistribution observedDistribution;
-    public NormalDistribution ObservedDistribution
+    bool alwaysUpdate;
+    public Distribution ObservedDistribution
     {
         get
         {
             return observedDistribution;
         }
         set
-        {
-            value.OnDistributionChange += () => dirty = true;
+        {            
             observedDistribution = value;
-        }
-    }
-
-    public float HorizontalScale{
-        get
-        {
-            return horizontalScale;
-        }
-        set
-        {
-            if (horizontalScale != value)
-            {
-                horizontalScale = value;
-            }
-            dirty = true;
-        }
-    }
-
-    public float VerticalScale
-    {
-        get
-        {
-            return verticalScale;
-        }
-        set
-        {
-            if (verticalScale != value)
-            {
-                verticalScale = value;
-            }
-            dirty = true;
         }
     }
 
@@ -63,15 +29,22 @@ public class Visualizer : MonoBehaviour
     {
         get
         {
-            return center;
+            return coordinateSpace.Center;
         }
-        set
+    }
+
+    public float HorizontalScale{
+        get
         {
-            if (center != value)
-            {
-                center = value;
-            }
-            dirty = true;
+            return coordinateSpace.HorizontalScale;
+        }
+    }
+
+    public float VerticalScale
+    {
+        get
+        {
+            return coordinateSpace.VerticalScale;
         }
     }
 
@@ -95,17 +68,19 @@ public class Visualizer : MonoBehaviour
 
     public void Start()
     {
+        observedDistribution.ValueChanged += () => dirty = true;
+        coordinateSpace.ScaleChanged += () => dirty = true;
         Setup();
-    }
-    public void Update()
-    {
-        dirty = false;
     }
 
     public void LateUpdate()
     {
         if (dirty)
         {
+            if (!alwaysUpdate)
+            {
+                dirty = false;
+            }
             Visualize();
         }
     }

@@ -5,26 +5,33 @@ using UnityEngine;
 public class WinCondition : MonoBehaviour
 {
     [SerializeField]
+    KullbackLeiblerDivergence KLD;
+    [SerializeField]
+    float winningKL;
+    [SerializeField]
     Vector2 targetMeanRange;
     [SerializeField]
     Vector2 targetStandardDeviationRange;
 
-    public NormalDistribution distribution = new NormalDistribution(0, 1);
+    public GameObject targetCurve;
+    public NormalDistribution normalDistribution;
     // Start is called before the first frame update
+    void Awake()
+    {
+        KLD.lowDivergence += NewGoal;
+        KLD.lowDivergenceRange = winningKL;
+        targetCurve = normalDistribution.gameObject;
+    }
+
     void Start()
     {
         NewGoal();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void NewGoal()
     {
-        distribution.Mean = Random.Range(targetMeanRange.x, targetMeanRange.y);
-        distribution.StandardDeviation = Random.Range(targetStandardDeviationRange.x, targetStandardDeviationRange.y);
+        normalDistribution.Mean = Random.Range(targetMeanRange.x, targetMeanRange.y);
+        normalDistribution.StandardDeviation = Random.Range(targetStandardDeviationRange.x, targetStandardDeviationRange.y);
+        targetCurve = normalDistribution.gameObject;
     }
 }

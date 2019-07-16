@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        particleManager.AbsoluteDrift = Input.GetAxis("Horizontal");
-        particleManager.RelativeDrift = Input.GetAxis("Vertical");
+        particleManager.AbsoluteDrift += Input.GetAxis("Horizontal")*Time.deltaTime;
+        particleManager.RelativeDrift += Input.GetAxis("Vertical")*Time.deltaTime;
     }
 }

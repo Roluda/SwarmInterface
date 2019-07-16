@@ -16,8 +16,8 @@ public class LineVisualizer : Visualizer
         float interval = Width/resolution;
         for (int i = 0; i < resolution; i++)
         {
-            float x = -Width/2 + interval * i;
-            float y = ObservedDistribution.GetValue((x/Width)*HorizontalScale)/VerticalScale*Height - Height/2;
+            float x = -Width / 2 + interval * i;
+            float y = ObservedDistribution.Value(Center+(x/Width)*HorizontalScale)/VerticalScale*Height - Height/2;
             curvePoints[i] = new Vector3(x, y, 0);
         }
         line.positionCount = resolution;

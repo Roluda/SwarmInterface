@@ -1,20 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class NormalDistribution
+public class NormalDistribution: Distribution
 {
-    public delegate void DistributionChangedAction();
-    public event DistributionChangedAction OnDistributionChange;
+    public override event UnityAction ValueChanged;
 
-    public NormalDistribution(float expectation, float standardDeviation)
-    {
-        Mean = expectation;
-        StandardDeviation = standardDeviation;
-    }
-
-    float _mean;
-    float _standardDeviation;
+    float _mean = 0;
+    float _standardDeviation = 1;
     public float Mean
     {
         get
@@ -24,7 +18,7 @@ public class NormalDistribution
         set
         {
             _mean = value;
-            OnDistributionChange?.Invoke();
+            ValueChanged?.Invoke();
         }
     }
 
@@ -37,11 +31,34 @@ public class NormalDistribution
         set
         {
             _standardDeviation = value;
-            OnDistributionChange?.Invoke();
+            ValueChanged?.Invoke();
         }
     }
 
-    public float GetValue(float x)
+    public override float Maximum
+    {
+        get
+        {
+            return Value(Mean);
+        }
+    }
+
+    public override float LowerBound
+    {
+        get
+        {
+            return Mean - StandardDeviation * 4;
+        }
+    }
+
+    public override float UpperBound
+    {
+        get
+        {
+            return Mean + StandardDeviation * 4;
+        }
+    }
+    public override float Value(float x)
     {
         return (1 / (StandardDeviation * Mathf.Sqrt(2 * Mathf.PI))) * Mathf.Exp(-0.5f * Mathf.Pow((x - Mean) / StandardDeviation, 2));
     }
