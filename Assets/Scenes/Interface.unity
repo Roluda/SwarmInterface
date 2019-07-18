@@ -154,12 +154,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: da608b026881bbf4c9f18f95d14f12dd, type: 2}
     _brainsToControl:
     - {fileID: 11400000, guid: da608b026881bbf4c9f18f95d14f12dd, type: 2}
-  maxSteps: 2000
+  maxSteps: 1000
   trainingConfiguration:
     width: 80
     height: 80
     qualityLevel: 1
-    timeScale: 100
+    timeScale: 5
     targetFrameRate: -1
   inferenceConfiguration:
     width: 1280
@@ -168,9 +168,12 @@ MonoBehaviour:
     timeScale: 1
     targetFrameRate: 60
   resetParameters:
-    resetParameters: []
+    resetParameters:
+    - key: win_condition
+      value: 0
   particleManager: {fileID: 564748361}
   winCondition: {fileID: 1864362336}
+  klDiv: {fileID: 1097025000}
 --- !u!4 &12349311
 Transform:
   m_ObjectHideFlags: 0
@@ -341,7 +344,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 210926192}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a43c40c73fd075e4bbd0045195f7ddcf, type: 3}
   m_Name: 
@@ -371,6 +374,7 @@ GameObject:
   m_Component:
   - component: {fileID: 322071026}
   - component: {fileID: 322071025}
+  - component: {fileID: 322071027}
   m_Layer: 0
   m_Name: Agent
   m_TagString: Untagged
@@ -415,6 +419,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &322071027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 322071024}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50f710d360a49461cad67ff5e6bcefe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  record: 0
+  demonstrationName: WienerDemo
 --- !u!1 &334165632
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,11 +483,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1386599597}
     m_Modifications:
-    - target: {fileID: 5192077939977466105, guid: 1f830b902ba9f35439d8aa890af89b4c,
-        type: 3}
-      propertyPath: m_Name
-      value: KL
-      objectReference: {fileID: 0}
     - target: {fileID: 9142979761990710382, guid: 1f830b902ba9f35439d8aa890af89b4c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -574,6 +587,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192077939977466105, guid: 1f830b902ba9f35439d8aa890af89b4c,
+        type: 3}
+      propertyPath: m_Name
+      value: KL
       objectReference: {fileID: 0}
     - target: {fileID: 4727628663102927242, guid: 1f830b902ba9f35439d8aa890af89b4c,
         type: 3}
@@ -712,10 +730,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialParticles: 20000
-  initialMean: 0
-  initialStandardDeviation: 1
+  initialMeanRange: {x: -10, y: 10}
+  initialStandardDeviationRange: {x: 0.3, y: 3}
   relativeDriftWeight: 1
-  absoluteDriftWeight: 1
+  absoluteDriftWeight: 10
   diffuse: 4
 --- !u!114 &564748362
 MonoBehaviour:
@@ -6412,11 +6430,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1386599597}
     m_Modifications:
-    - target: {fileID: 5192077939977466105, guid: 1f830b902ba9f35439d8aa890af89b4c,
-        type: 3}
-      propertyPath: m_Name
-      value: C
-      objectReference: {fileID: 0}
     - target: {fileID: 9142979761990710382, guid: 1f830b902ba9f35439d8aa890af89b4c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6521,6 +6534,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192077939977466105, guid: 1f830b902ba9f35439d8aa890af89b4c,
+        type: 3}
+      propertyPath: m_Name
+      value: C
       objectReference: {fileID: 0}
     - target: {fileID: 4727628663102927242, guid: 1f830b902ba9f35439d8aa890af89b4c,
         type: 3}
@@ -6681,10 +6699,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c3718ed56707d74594266750421b534, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  KLD: {fileID: 1097025000}
-  winningKL: 0.3
   targetMeanRange: {x: -10, y: 10}
-  targetStandardDeviationRange: {x: 1, y: 3}
+  targetStandardDeviationRange: {x: 0.3, y: 3}
+  KLDiv: {fileID: 1097025000}
   targetCurve: {fileID: 0}
   normalDistribution: {fileID: 334165633}
 --- !u!4 &1864362337
@@ -6709,11 +6726,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1386599597}
     m_Modifications:
-    - target: {fileID: 5192077939977466105, guid: 1f830b902ba9f35439d8aa890af89b4c,
-        type: 3}
-      propertyPath: m_Name
-      value: K
-      objectReference: {fileID: 0}
     - target: {fileID: 9142979761990710382, guid: 1f830b902ba9f35439d8aa890af89b4c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -6818,6 +6830,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5192077939977466105, guid: 1f830b902ba9f35439d8aa890af89b4c,
+        type: 3}
+      propertyPath: m_Name
+      value: K
       objectReference: {fileID: 0}
     - target: {fileID: 4727628663102927242, guid: 1f830b902ba9f35439d8aa890af89b4c,
         type: 3}

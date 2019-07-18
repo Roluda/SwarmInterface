@@ -17,7 +17,7 @@ public class KullbackLeiblerDivergence : MonoBehaviour, IPlottable
     int resolution;
     [SerializeField]
     float divergence;
-    [HideInInspector]
+    [SerializeField]
     public float lowDivergenceRange;
     public event UnityAction lowDivergence;
 
@@ -86,13 +86,13 @@ public class KullbackLeiblerDivergence : MonoBehaviour, IPlottable
         for(int i=0; i < resolution; i++)
         {
             float x = LowerBound + i * (Range/resolution);
-            float val = p.Value(x) * Mathf.Log(p.Value(x) / q.Value(x));
+            float val = p.Value(x) * Mathf.Log10(p.Value(x) / q.Value(x));
             if (float.IsNaN(val) )
             {
                 val = 0;
             }else if(float.IsInfinity(val))
             {
-                val = 1;
+                val = 38;
             }            
             div += val;
         }

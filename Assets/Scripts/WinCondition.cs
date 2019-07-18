@@ -5,22 +5,18 @@ using UnityEngine;
 public class WinCondition : MonoBehaviour
 {
     [SerializeField]
-    KullbackLeiblerDivergence KLD;
-    [SerializeField]
-    float winningKL;
-    [SerializeField]
     Vector2 targetMeanRange;
     [SerializeField]
     Vector2 targetStandardDeviationRange;
-
+    [SerializeField]
+    KullbackLeiblerDivergence KLDiv;
     public GameObject targetCurve;
     public NormalDistribution normalDistribution;
     // Start is called before the first frame update
     void Awake()
     {
-        KLD.lowDivergence += NewGoal;
-        KLD.lowDivergenceRange = winningKL;
         targetCurve = normalDistribution.gameObject;
+        KLDiv.lowDivergence += NewGoal;
     }
 
     void Start()

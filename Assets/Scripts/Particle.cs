@@ -18,7 +18,10 @@ public class Particle
         }
         set
         {
-            x = value;
+            if (!float.IsNaN(value))
+            {
+                x = value;
+            }
         }
     }
 }

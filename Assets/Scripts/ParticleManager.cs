@@ -11,9 +11,9 @@ public class ParticleManager : MonoBehaviour, IPlottable
     [SerializeField]
     int initialParticles;
     [SerializeField]
-    float initialMean;
+    Vector2 initialMeanRange;
     [SerializeField]
-    float initialStandardDeviation;
+    Vector2 initialStandardDeviationRange;
     [SerializeField]
     float relativeDriftWeight;
     [SerializeField]
@@ -158,9 +158,11 @@ public class ParticleManager : MonoBehaviour, IPlottable
     {
         AbsoluteDrift = 0;
         particles = new Particle[initialParticles];
+        float mean = Random.Range(initialMeanRange.x, initialMeanRange.y);
+        float stdDev = Random.Range(initialStandardDeviationRange.x, initialStandardDeviationRange.y);
         for (int i = 0; i < initialParticles; i++)
-        {
-            float normalDistributedRandomNumber = MarsagliaGenerator.Next() * initialStandardDeviation + initialMean;
+        {            
+            float normalDistributedRandomNumber = MarsagliaGenerator.Next() * stdDev + mean;
             particles[i] = new Particle(normalDistributedRandomNumber);
         }
     }

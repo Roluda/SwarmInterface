@@ -9,8 +9,12 @@ public class WienerAcademy : Academy
     ParticleManager particleManager;
     [SerializeField]
     WinCondition winCondition;
+    [SerializeField]
+    KullbackLeiblerDivergence klDiv;
+
     public override void AcademyReset()
     {
+        klDiv.lowDivergenceRange = resetParameters["win_condition"];
         particleManager.Setup();
         winCondition.NewGoal();
     }
