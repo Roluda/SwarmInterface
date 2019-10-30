@@ -14,11 +14,11 @@ public class KullbackLeiblerDivergence : MonoBehaviour, IPlottable
     [SerializeField]
     float upperBound;
     [SerializeField]
-    int resolution;
+    int resolution; //continous space has to be discretized, this determines how many discrete points there is for approximation
     [SerializeField]
     float divergence;
     [SerializeField]
-    public float lowDivergenceRange;
+    public float lowDivergenceRange; //threshhold to trigger lowDivergence event
     public event UnityAction lowDivergence;
 
 
@@ -80,8 +80,8 @@ public class KullbackLeiblerDivergence : MonoBehaviour, IPlottable
     // Update is called once per frame
     void LateUpdate()
     {
-        LowerBound =  Mathf.Min(p.LowerBound, q.LowerBound);
-        UpperBound =  Mathf.Max(p.UpperBound, q.UpperBound);
+        LowerBound =  Mathf.Min(p.LowerBound, q.LowerBound); //gets the lowest lowerBound
+        UpperBound =  Mathf.Max(p.UpperBound, q.UpperBound); //gets the highest upperBound
         float div = 0;
         for(int i=0; i < resolution; i++)
         {
@@ -90,9 +90,9 @@ public class KullbackLeiblerDivergence : MonoBehaviour, IPlottable
             if (float.IsNaN(val) )
             {
                 val = 0;
-            }else if(float.IsInfinity(val))
+            }else if(float.IsInfinity(val))//needs to check this since the histogram may has empty segments & being far away from target distribution may return super low floats.
             {
-                val = 38;
+                val = 38; //1*e^38 is lowest possible float.
             }            
             div += val;
         }

@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// manages particle initialization and movement
+/// </summary>
 public class ParticleManager : MonoBehaviour, IPlottable
 {
     public Particle[] particles;
@@ -21,6 +25,11 @@ public class ParticleManager : MonoBehaviour, IPlottable
     [SerializeField]
     float diffuse;
 
+    #endregion
+
+    #region private fields
+    private float relativeDrift;
+    private float absoluteDrift;
     #endregion
 
     #region properties
@@ -110,7 +119,10 @@ public class ParticleManager : MonoBehaviour, IPlottable
             return max;
         }
     }
-    private float relativeDrift;
+
+    /// <summary>
+    /// K
+    /// </summary>
     public float RelativeDrift
     {
         get
@@ -122,7 +134,10 @@ public class ParticleManager : MonoBehaviour, IPlottable
             relativeDrift = value;
         }
     }
-    private float absoluteDrift;
+
+    /// <summary>
+    /// C
+    /// </summary>
     public float AbsoluteDrift
     {
         get
@@ -154,6 +169,9 @@ public class ParticleManager : MonoBehaviour, IPlottable
 
     #endregion
 
+    /// <summary>
+    /// call this method to initialize the swarm
+    /// </summary>
     public void Setup()
     {
         AbsoluteDrift = 0;
@@ -167,6 +185,11 @@ public class ParticleManager : MonoBehaviour, IPlottable
         }
     }
 
+
+    /// <summary>
+    /// this is the prime differential equation for particle movement
+    /// </summary>
+    /// <param name="particle"></param>
     public void ApplyDrift(Particle particle)
     {
         particle.X += (particle.X * RelativeDrift * relativeDriftWeight + AbsoluteDrift * absoluteDriftWeight) * Time.deltaTime + diffuse * MarsagliaGenerator.Next() * Time.deltaTime;

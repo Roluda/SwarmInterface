@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// creates a random normal distribution as target for the particles on Start or when a low KL-Divergence is met
+/// </summary>
 public class WinCondition : MonoBehaviour
 {
     [SerializeField]

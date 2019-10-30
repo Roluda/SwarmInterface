@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A particle
+/// </summary>
 public class Particle
 {
     public Particle(float x)

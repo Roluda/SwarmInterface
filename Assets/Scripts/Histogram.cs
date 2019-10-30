@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
+/// <summary>
+/// creates a Histogramm of the particles of an observed particleManager
+/// </summary>
 public class Histogram : Distribution
 {
     [SerializeField]
     ParticleManager observedParticles;
     [SerializeField]
-    int resolution;
-    float lowerBound;
-    float upperBound;
+    int resolution; //how many segments the histogram has
+    float lowerBound; //where the histogram starts
+    float upperBound; //where the histogram ends
 
     public override event UnityAction ValueChanged;
 
     Dictionary<int,float> values;
     float range;
 
-    public override float Maximum
+    public override float Maximum //see Distribution.cs
     {
         get
         {
@@ -33,7 +37,7 @@ public class Histogram : Distribution
         }
     }
 
-    public override float LowerBound
+    public override float LowerBound //see Distribution.cs
     {
         get
         {
@@ -41,7 +45,7 @@ public class Histogram : Distribution
         }
     }
 
-    public override float UpperBound
+    public override float UpperBound //see Distribution.cs
     {
         get
         {
@@ -66,6 +70,9 @@ public class Histogram : Distribution
 
     #endregion
 
+    /// <summary>
+    /// observes the particle Manager
+    /// </summary>
     void Observe()
     {
         lowerBound = observedParticles.PositionMinimum;
@@ -76,14 +83,14 @@ public class Histogram : Distribution
         {
             if(p.X>=lowerBound && p.X <=upperBound)
             {
-                int segment = Mathf.FloorToInt((p.X/range) *resolution);
+                int segment = Mathf.FloorToInt((p.X/range) *resolution); //sorts the particles into segments of the histogram
                 if (!updatedValues.ContainsKey(segment))
                 {
-                    updatedValues.Add(segment, 1f);// observedParticles.particles.Length);
+                    updatedValues.Add(segment, 1f);
                 }
                 else
                 {
-                    updatedValues[segment]++;//= 1f / observedParticles.particles.Length;
+                    updatedValues[segment]++;
                 }
             }
         }
@@ -102,7 +109,7 @@ public class Histogram : Distribution
             int segment = Mathf.FloorToInt((x/range) * resolution);
             if (values.ContainsKey(segment))
             {
-                return (values[segment] / observedParticles.particles.Length) / (range/resolution);
+                return (values[segment] / observedParticles.particles.Length) / (range/resolution); //relative probabilty
             }
             else
             {

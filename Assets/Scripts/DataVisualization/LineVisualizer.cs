@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class LineVisualizer : Visualizer
 {
     [SerializeField]
@@ -9,7 +10,9 @@ public class LineVisualizer : Visualizer
     [SerializeField]
     LineRenderer line;
 
-
+    /// <summary>
+    /// puts line renderer points from left to right according to coordinate space and observed distribution
+    /// </summary>
     public override void Visualize()
     {
         Vector3[] curvePoints = new Vector3[resolution];

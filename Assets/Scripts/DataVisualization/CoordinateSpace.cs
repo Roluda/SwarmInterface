@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// manages the scale of the coordinate space to have a nice visual experience
+/// </summary>
 public class CoordinateSpace : MonoBehaviour
 {
     [SerializeField]

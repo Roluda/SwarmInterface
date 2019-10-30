@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+/// <summary>
+/// a gauss distribution
+/// </summary>
 public class NormalDistribution: Distribution
 {
     public override event UnityAction ValueChanged;
@@ -47,7 +50,7 @@ public class NormalDistribution: Distribution
     {
         get
         {
-            return Mean - StandardDeviation * 4;
+            return Mean - StandardDeviation * 4; //very low probabilty so not relevant anymore
         }
     }
 
@@ -55,7 +58,7 @@ public class NormalDistribution: Distribution
     {
         get
         {
-            return Mean + StandardDeviation * 4;
+            return Mean + StandardDeviation * 4; //very low probability so not relevant anymore
         }
     }
     public override float Value(float x)
